@@ -4,20 +4,12 @@ class Solution:
         :type s: str
         :rtype: int
         """
-        if not s:
-            return 0
-        d = {}
-        substr = ''
-        i = 0
-        curr = 1
-        while i < len(s):
-            if s[i] not in substr:
-                substr += s[i]
-                i += 1
-            else:
-                d[substr] = len(substr)
-                substr = ''
-                i = curr
-                curr += 1
-        d[substr] = len(substr)
-        return max(d.values())
+        seen = {}
+        max_length = 0
+        start = 0
+        for end in range(len(s)):
+            if s[end] in seen:
+                start = max(start, seen[s[end]] + 1)
+            seen[s[end]] = end
+            max_length = max(max_length, end - start + 1)
+        return max_length
